@@ -25,11 +25,11 @@ public class PlayerInMemoryStorage implements Storable<Player, UUID> {
     }
 
     @Override
-    public CompletableFuture<Void> save (Player player) {
+    public CompletableFuture<Player> save (Player player) {
         PlayerInMemoryStorage.log.info("save...");
         this.players.add(player);
         PlayerInMemoryStorage.log.info(this.players);
-        return CompletableFuture.allOf();
+        return CompletableFuture.completedFuture(player);
     }
 
     @Override

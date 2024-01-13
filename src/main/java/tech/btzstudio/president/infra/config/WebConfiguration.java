@@ -5,7 +5,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import tech.btzstudio.president.auth.player.PlayerInjectableParameterResolver;
-import tech.btzstudio.president.auth.player.RestAuthorizationInterceptor;
+import tech.btzstudio.president.auth.player.PlayerRestrictedInterceptor;
 import tech.btzstudio.president.infra.request.RateLimitationInterceptor;
 
 import java.util.List;
@@ -14,10 +14,10 @@ import java.util.List;
 public class WebConfiguration implements WebMvcConfigurer {
 
     private final RateLimitationInterceptor limitationInterceptor;
-    private final RestAuthorizationInterceptor authorizationInterceptor;
+    private final PlayerRestrictedInterceptor authorizationInterceptor;
     private final PlayerInjectableParameterResolver playerParameterResolver;
 
-    public WebConfiguration (RateLimitationInterceptor limitationInterceptor, RestAuthorizationInterceptor authorizationInterceptor, PlayerInjectableParameterResolver playerParameterResolver) {
+    public WebConfiguration (RateLimitationInterceptor limitationInterceptor, PlayerRestrictedInterceptor authorizationInterceptor, PlayerInjectableParameterResolver playerParameterResolver) {
         this.limitationInterceptor = limitationInterceptor;
         this.authorizationInterceptor = authorizationInterceptor;
         this.playerParameterResolver = playerParameterResolver;
@@ -26,7 +26,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors (InterceptorRegistry registry) {
         registry.addInterceptor(this.limitationInterceptor).addPathPatterns("/**");
-        registry.addInterceptor(this.authorizationInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(this.authorizationInterceptor);
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface Storable<T, PK> {
     CompletableFuture<Optional<T>> findById(PK id);
-    CompletableFuture<Void> save(T object);
+    CompletableFuture<T> save(T object);
     CompletableFuture<Void> remove(PK id);
 
     CompletableFuture<Collection<T>> findAll();

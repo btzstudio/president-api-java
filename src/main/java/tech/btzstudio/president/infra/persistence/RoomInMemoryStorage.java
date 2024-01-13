@@ -21,7 +21,7 @@ public class RoomInMemoryStorage implements Storable<Room, UUID> {
     }
 
     @Override
-    public CompletableFuture<Void> save (Room room) {
+    public CompletableFuture<Room> save (Room room) {
         var alreadyExists = this.rooms.stream()
             .map(Room::getName)
             .anyMatch(name -> name.equals(room.getName()))
@@ -34,7 +34,7 @@ public class RoomInMemoryStorage implements Storable<Room, UUID> {
         }
 
         this.rooms.add(room);
-        return CompletableFuture.allOf();
+        return CompletableFuture.completedFuture(room);
     }
 
     @Override
